@@ -1,0 +1,99 @@
+package com.automation.stepdefinition;
+
+
+
+import org.baseclass.Baseclass;
+import org.baseclass.Testclass;
+import org.openqa.selenium.WebDriver;
+
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+
+public class Automationstep extends Baseclass {
+	public static WebDriver driver;
+	static Testclass tc;
+	
+	@Given("^User launch the browser$")
+	public void user_launch_the_browser() throws Throwable {
+	   driver = Browser("Chrome");
+	}
+
+	@When("^User hits the automation practice website$")
+	public void user_hits_the_automation_practice_website() throws Throwable {
+	    
+	    getUrl("http://automationpractice.com/index.php");
+	}
+
+	@When("^User click the sign in button$")
+	public void user_click_the_sign_in_button() throws Throwable {
+	    tc=new Testclass(driver);
+	    click(tc.getSignin());
+	    
+	}
+
+	@When("^User enter the emailaddress$")
+	public void user_enter_the_emailaddress() throws Throwable {
+		  tc=new Testclass(driver);
+		  setText(tc.getUsername(), "testingworld18@gmail.com");
+	    
+	}
+
+	@When("^user enter the password$")
+	public void user_enter_the_password() throws Throwable {
+		  tc=new Testclass(driver);
+		  setText(tc.getPassword(), "testingworld18");
+	    
+	}
+
+	@Then("^user click the signin button$")
+	public void user_click_the_signin_button() throws Throwable {
+		  tc=new Testclass(driver);
+		  click(tc.getSignin());
+	    
+	}
+
+	@Given("^User click the Dresses button$")
+	public void user_click_the_Dresses_button() throws Throwable {
+	    
+	    
+	}
+
+	@Given("^User click the selected products$")
+	public void user_click_the_selected_products() throws Throwable {
+	    
+	    
+	}
+
+	@Given("^User click the Add TO Cart$")
+	public void user_click_the_Add_TO_Cart() throws Throwable {
+	    
+	    
+	}
+
+	@Then("^User click the continue shopping button$")
+	public void user_click_the_continue_shopping_button() throws Throwable {
+	    
+	    
+	}
+
+	@Given("^User mouse over the cart$")
+	public void user_mouse_over_the_cart() throws Throwable {
+	    
+	    
+	}
+
+	@Given("^User enters the checkout$")
+	public void user_enters_the_checkout() throws Throwable {
+	    
+	    
+	}
+
+	@Then("^User enters proceed to checkout$")
+	public void user_enters_proceed_to_checkout() throws Throwable {
+	    
+	    
+	}
+
+
+}

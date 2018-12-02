@@ -1,0 +1,10 @@
+Feature: Automation practice test
+
+Scenario: User verifies the login functionality
+Given User launch the browser
+When User hits the automation practice website
+And User click the sign in button
+And User enter the emailaddress
+And user enter the password
+Then user click the signin button
+

@@ -1,0 +1,44 @@
+package org.baseclass;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class Testclass {
+
+	 public static WebDriver driver;
+	public Testclass(WebDriver Idriver) {
+		// TODO Auto-generated constructor stub
+		this.driver=Idriver;
+		PageFactory.initElements(driver, this);
+		
+	}
+	
+	@FindBy(xpath="//a[@title='Log in to your customer account']")
+	private WebElement signin;
+	
+	@FindBy(xpath="//input[@id='email']")
+	private WebElement username;
+	
+	@FindBy(xpath="//input[@id='passwd']")
+	private WebElement password;
+	
+	@FindBy(xpath="//button[@id='SubmitLogin']//span")
+	private WebElement signin1;
+	
+	@FindBy(xpath="//li[@class='sfHover']")
+	private WebElement dresses;
+	
+	@FindBy(xpath="//span[contains(text(),'Add to cart')]")
+	private WebElement proadd1;
+	
+	@FindBy(xpath="//span[@title='Continue shopping']")
+	private WebElement cont1;
+	
+	@FindBy(xpath="//span[contains(text(),'Add to cart')]")
+	private WebElement proadd2;
+	
+	
+	
+}

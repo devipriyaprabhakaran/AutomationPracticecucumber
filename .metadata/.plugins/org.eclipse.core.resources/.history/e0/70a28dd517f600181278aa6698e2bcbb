@@ -1,0 +1,12 @@
+package org.baseclass;
+
+import org.openqa.selenium.WebDriver;
+
+public class Testclass {
+
+	 public static WebDriver driver;
+	public Testclass() {
+		// TODO Auto-generated constructor stub
+		this.
+	}
+}

@@ -1,0 +1,4 @@
+Feature: Amazon application end to end test cases
+
+Scenario: User verifies login functionality of the application
+User launch the browser

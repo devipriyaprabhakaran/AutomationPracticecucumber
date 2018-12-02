@@ -1,0 +1,37 @@
+package org.stepdefinition;
+
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
+
+public class AmazonStepDefinition {
+
+
+@Given("^User launch the browser$")
+public void user_launch_the_browser() throws Throwable {
+   
+}
+
+@When("^entering the amazon application$")
+public void entering_the_amazon_application() throws Throwable {
+
+}
+
+@When("^user mouse over the signin button$")
+public void user_mouse_over_the_signin_button() throws Throwable {
+
+}
+
+@When("^user enters username and password$")
+public void user_enters_username_and_password() throws Throwable {
+   
+}
+
+@Then("^clicks the signin button$")
+public void clicks_the_signin_button() throws Throwable {
+ 
+}
+
+
+	
+	
+}

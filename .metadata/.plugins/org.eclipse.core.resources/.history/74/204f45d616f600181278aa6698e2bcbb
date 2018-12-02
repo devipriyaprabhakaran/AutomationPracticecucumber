@@ -1,0 +1,12 @@
+package com.automation.runner;
+
+import org.junit.runner.RunWith;
+
+import cucumber.api.junit.Cucumber;
+
+@RunWith(Cucumber.class)
+@C
+public class Automationclass {
+
+
+}

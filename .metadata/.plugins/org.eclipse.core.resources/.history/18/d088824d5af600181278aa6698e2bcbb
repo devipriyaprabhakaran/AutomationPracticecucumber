@@ -1,0 +1,366 @@
+package org.baseclass;
+
+	import java.awt.AWTException;
+	import java.awt.Robot;
+	import java.awt.event.KeyEvent;
+	import java.io.File;
+	import java.io.IOException;
+	import java.nio.channels.FileLockInterruptionException;
+	import java.util.List;
+	import java.util.Set;
+	import java.util.concurrent.TimeUnit;
+
+	import org.apache.commons.io.FileUtils;
+	import org.openqa.selenium.Alert;
+	import org.openqa.selenium.By;
+	import org.openqa.selenium.JavascriptExecutor;
+	import org.openqa.selenium.OutputType;
+	import org.openqa.selenium.TakesScreenshot;
+	import org.openqa.selenium.WebDriver;
+	import org.openqa.selenium.WebDriverException;
+	import org.openqa.selenium.WebElement;
+	import org.openqa.selenium.chrome.ChromeDriver;
+	import org.openqa.selenium.firefox.FirefoxDriver;
+	import org.openqa.selenium.interactions.Actions;
+	import org.openqa.selenium.support.ui.ExpectedCondition;
+	import org.openqa.selenium.support.ui.ExpectedConditions;
+	import org.openqa.selenium.support.ui.Select;
+	import org.openqa.selenium.support.ui.WebDriverWait;
+
+	public class Baseclass {
+		static WebDriver driver;
+
+		public static WebDriver Browser(String browserName) {
+			if (browserName.equals("chrome")) {
+				System.setProperty("webdriver.chrome.driver",
+						"C:\\Users\\ADMIN\\eclipse-SELENIUM NEW\\AutomationPractice\\driver\\chromedriver.exe");
+				driver = new ChromeDriver();
+				driver.manage().window().maximize();
+			} else if (browserName.equals("firefox")) {
+				System.setProperty("webdriver.gecko.driver",
+						"C:\\Users\\ADMIN\\eclipse-SELENIUM NEW\\AutomationPractice\\driver\\geckodriver.exe");
+				driver = new FirefoxDriver();
+				driver.manage().window().maximize();
+
+			}
+			return driver;
+		}
+
+		public static void getUrl(String url) {
+			driver.get(url);
+
+		}
+
+		public static void implicitWait(long seconds) {
+			driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
+
+		}
+
+		public static void untilVisibilityOfElement(long seconds, WebElement element) {
+			WebDriverWait wait = new WebDriverWait(driver, seconds);
+			wait.until(ExpectedConditions.visibilityOf(element));
+		}
+
+		public static boolean isDislayed(WebElement element) {
+			boolean displayed = element.isDisplayed();
+			return displayed;
+		}
+
+		public static boolean isSelected(WebElement element) {
+			boolean selected = element.isSelected();
+			return selected;
+		}
+
+		public static boolean isEnabled(WebElement element) {
+			boolean enabled = element.isEnabled();
+			return enabled;
+		}
+
+		public static void setText(WebElement element, String value) throws Exception {
+			try {
+				untilVisibilityOfElement(5, element);
+				if (isDislayed(element) && isEnabled(element)) {
+					element.clear();
+					element.sendKeys(value);
+
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new Exception("drop down unable select");
+
+			}
+		}
+
+		public static void selectDropDown(WebElement element, String value, String option) throws Exception {
+			try {
+				untilVisibilityOfElement(10, element);
+				Select s = new Select(element);
+				if (option.equals("value")) {
+					s.selectByValue(value);
+				} else if (option.equals("index")) {
+					int parseInt = Integer.parseInt(value);
+					s.selectByIndex(parseInt);
+				} else if (option.equals("Text")) {
+					s.selectByVisibleText(value);
+				}
+				/*
+				 * String text = s.getFirstSelectedOption().getText(); List<WebElement> options
+				 * = s.getOptions(); for (WebElement x : options) { x.getText();
+				 * x.getAttribute("value"); }
+				 */
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new Exception("drop down unable select");
+			}
+		}
+
+		public static String getTitle() {
+			implicitWait(10);
+			String title = driver.getTitle();
+			return title;
+		}
+
+		public static String getCurrentUrl() {
+			implicitWait(10);
+			String currentUrl = driver.getCurrentUrl();
+			return currentUrl;
+		}
+
+		public static void takeScreenShot(String fileName) throws IOException {
+			try {
+				TakesScreenshot tc = (TakesScreenshot) driver;
+				File screenshotAs = tc.getScreenshotAs(OutputType.FILE);
+				File nf = new File("F:\\New folder\\Workspace\\JunitTest\\lib\\" + fileName + ".png");
+				FileUtils.copyFile(screenshotAs, nf);
+			} catch (WebDriverException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		public static void scrollUpandScrollDown(Object element, String options) {
+			try {
+				JavascriptExecutor js = (JavascriptExecutor) driver;
+
+				if (options.equals("elements")) {
+					WebElement elementtoScroll = (WebElement) element;
+					js.executeScript("arguments[0].scrolIntoView();", elementtoScroll);
+
+				} else if (options.equals("coordinates")) {
+					String coordinates = (String) element;
+					String[] split = coordinates.split(",");
+					String width = split[0];
+					String height = split[1];
+					js.executeScript("window.scrollBy(" + width + "," + height + ")");
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public static void mouseHover(WebElement element) {
+			try {
+				Actions ac = new Actions(driver);
+				ac.moveToElement(element).build().perform();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public static void dragandDrop(WebElement source, WebElement target) {
+			try {
+				Actions ac = new Actions(driver);
+				ac.dragAndDrop(source, target).build().perform();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public static void doubleClick(WebElement element) {
+			try {
+				Actions ac = new Actions(driver);
+				ac.doubleClick(element).build().perform();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public static void navigation(String options) {
+			try {
+				if (options.equals("refresh")) {
+					driver.navigate().refresh();
+				} else if (options.equals("forward")) {
+					driver.navigate().forward();
+				} else if (options.equals("backward")) {
+					driver.navigate().back();
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public static void navigatetoUrl(String url) {
+			try {
+				driver.navigate().to(url);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		public static String getText(WebElement element) {
+			String text = null;
+			try {
+				text = element.getText();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return text;
+
+		}
+
+		public static String getAttributeValue(WebElement element, String options) {
+			String attribute = null;
+			try {
+				attribute = element.getAttribute(options);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return attribute;
+
+		}
+		
+		public void handleAlert(String alertType,String options) {
+			try {
+				Alert alert = driver.switchTo().alert();
+				if (alertType.equals("simple")) {
+					if (options.equalsIgnoreCase("accept")) {
+						alert.accept();
+					}else {
+						throw new Exception("Not valid options");
+					}
+				}else if (alertType.equals("confirm")) {
+					if (options.equals("accept")) {
+						alert.accept();;
+					}
+					else if (options.equals("dismiss")) {
+						alert.dismiss();
+					}else {
+						throw new Exception("Not valid options");
+					}
+				}else if (alertType.equals("prompt")) {
+					if (options.equals("dismiss")) {
+						alert.dismiss();
+					}else {
+						alert.sendKeys(options);
+						alert.accept();
+					}
+					
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public void switchtoWindows(int index) {
+			try {
+				String cid = driver.getWindowHandle();
+				Set<String> windowHandles = driver.getWindowHandles();
+				List pid = (List) windowHandles;
+				for (int i = 0; i < pid.size(); i++) {
+					if (!pid.equals(cid)) {
+						String object = pid.get(index).toString();
+						driver.switchTo().window(object);
+					}else {
+						continue;
+					}
+					
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		public static void switchtoFrame(WebElement arg0) {
+			try {
+				driver.switchTo().frame(arg0);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		public static void switchtoDefaultContent() {
+			driver.switchTo().defaultContent();
+		}
+		
+		public static void getValuefromTable(String options) {
+			if (options.equals("header")) {
+				String s = "table/thead/tr/th";
+				driver.findElement(By.xpath(s)).getText();
+			} else if (options.equals("body")) {
+				String s1 = "table/tbody/tr[1]/td[2]";
+			}else if (options.equals("footer")) {
+				String s2 = "table/tfoot/tr/th";
+			}
+		}
+		
+		public void rightClick(WebElement element, String options) throws AWTException {
+			Actions ac = new Actions(driver);
+			ac.contextClick(element).build().perform();
+			
+			if (options.equals("tab")) {
+				Robot r = new Robot();
+				r.keyPress(KeyEvent.VK_DOWN);
+				r.keyRelease(KeyEvent.VK_DOWN);
+				r.keyPress(KeyEvent.VK_ENTER);
+				r.keyRelease(KeyEvent.VK_ENTER);
+			}else if (options.equals("windows")) {
+				Robot r = new Robot();
+				r.keyPress(KeyEvent.VK_DOWN);
+				r.keyRelease(KeyEvent.VK_DOWN);
+				r.keyPress(KeyEvent.VK_DOWN);
+				r.keyRelease(KeyEvent.VK_DOWN);
+				r.keyPress(KeyEvent.VK_ENTER);
+				r.keyRelease(KeyEvent.VK_ENTER);
+			}
+		}
+		public static void Close() {
+			driver.close();
+			
+		}
+		public static void click(WebElement element) {
+			element.click();
+			
+			
+		}
+		public static void Quit() {
+			driver.quit();
+			
+		}
+		public static void Wait() {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
+	}
+
+
